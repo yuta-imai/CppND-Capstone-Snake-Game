@@ -16,6 +16,10 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
       running = false;
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
+        case SDLK_ESCAPE:
+          snake.alive = false;
+          break;
+
         case SDLK_UP:
           ChangeDirection(snake, Snake::Direction::kUp,
                           Snake::Direction::kDown);
