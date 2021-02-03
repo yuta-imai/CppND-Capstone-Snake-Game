@@ -8,7 +8,7 @@
 
 class Food {
  public:
-  Food(int grid_width, int grid_height, Snake *snake_)
+  Food(int grid_width, int grid_height, std::shared_ptr<Snake> snake_)
     : snake(snake_),
       engine(dev()),
       random_w(0, grid_width),
@@ -19,7 +19,7 @@ class Food {
 
 private:
   SDL_Point location;
-  Snake *snake;
+  std::shared_ptr<Snake> snake;
 
   std::random_device dev;
   std::mt19937 engine;
