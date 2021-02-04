@@ -1,6 +1,24 @@
 #include <iostream>
 #include "food.h"
 
+Food::Food(int grid_width, int grid_height, std::shared_ptr<Snake> snake_)
+    : snake(snake_),
+      engine(dev()),
+      random_w(0, grid_width),
+      random_h(0, grid_height)  {
+    threads.emplace_back(std::thread(&Food::RandomLocationUpdate, this));
+  }
+
+Food::~Food(){
+    std::for_each(threads.begin(), threads.end(), [](std::thread &t) {
+        t.join();
+    });
+  }
+
+void Food::TerminateGame() {
+  terminate_game = true;
+}
+
 void Food::UpdateLocation() {
   std::cout << "Updating food location!" << std::endl;
   int x, y;
@@ -36,6 +54,12 @@ void Food::RandomLocationUpdate() {
   std::chrono::steady_clock::time_point cycledAt = std::chrono::steady_clock::now();
   while(true)
     {
+        {
+          std::lock_guard<std::mutex> lock(mtx);
+          if(terminate_game){
+            return;
+          }
+        }
         std::chrono::steady_clock::time_point now =  std::chrono::steady_clock::now();
         int elapsedSinceLastCycle = std::chrono::duration_cast<std::chrono::seconds>(now - cycledAt).count();
         int cycleDurationInSecond = distr(engine);

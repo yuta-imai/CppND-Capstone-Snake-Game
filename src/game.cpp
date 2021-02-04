@@ -8,6 +8,11 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
   food.UpdateLocation();
 }
 
+void Game::TerminateGame() {
+  running = false;
+  food.TerminateGame();
+}
+
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
@@ -15,7 +20,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  bool running = true;
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -23,7 +27,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, *snake.get());
     Update();
-    //renderer.Render(snake, food);
     renderer.Render(*snake.get(), food.GetLocation());
 
     frame_end = SDL_GetTicks();
@@ -50,15 +53,16 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 }
 
 void Game::Update() {
-  if (!snake->alive) return;
-
+  if (!snake->IsAlive()) {
+    TerminateGame();
+    return;
+  }
   snake->Update();
 
   int new_x = static_cast<int>(snake->head_x);
   int new_y = static_cast<int>(snake->head_y);
 
   // Check if there's food over here
-  //if (food.x == new_x && food.y == new_y) {
   if(food.IsAt(new_x, new_y)) {
     score++;
     food.UpdateLocation();

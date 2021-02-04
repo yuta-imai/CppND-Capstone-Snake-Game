@@ -10,14 +10,9 @@
 class Food
 {
 public:
-  Food(int grid_width, int grid_height, std::shared_ptr<Snake> snake_)
-    : snake(snake_),
-      engine(dev()),
-      random_w(0, grid_width),
-      random_h(0, grid_height)  {
-    threads.emplace_back(std::thread(&Food::RandomLocationUpdate, this));
-  }
-  ~Food(){}
+  Food(int, int, std::shared_ptr<Snake>);
+  ~Food();
+  void TerminateGame();
   void UpdateLocation();
   bool IsAt(int, int);
   SDL_Point GetLocation();
@@ -27,6 +22,7 @@ private:
   std::shared_ptr<Snake> snake;
   std::vector<std::thread> threads;
   std::mutex mtx;
+  bool terminate_game{false};
 
   std::random_device dev;
   std::mt19937 engine;

@@ -17,11 +17,14 @@ class Game {
   int GetScore() const;
   int GetSize() const;
 
- private:
+  void TerminateGame();
+
+private:
   std::shared_ptr<Snake> snake;
   Food food;
 
   int score{0};
+  bool running{true};
 
   void Update();
 };

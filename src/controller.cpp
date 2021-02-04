@@ -17,7 +17,7 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_ESCAPE:
-          snake.alive = false;
+          snake.PoisonPill();
           break;
 
         case SDLK_UP:
