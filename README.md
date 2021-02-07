@@ -1,12 +1,47 @@
 # CPPND: Capstone Snake Game Example
 
-This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
+This is a my Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
 
 <img src="snake_game.gif"/>
 
-The Capstone Project gives you a chance to integrate what you've learned throughout this program. This project will become an important part of your portfolio to share with current and future colleagues and employers.
+## Work summary
 
-In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
+In my project, I made food randomly update its location so the game gets more exciting. To achieve this, I add `Food` class which manages its location and performs random location update by using a thread.
+
+## Work in detail
+
+- `main.cpp`: Made it to write result to a file, not only console.
+- `Snake`: Added `IsAlive()` and `PoisonPill()` so we can observe if its alive and let it die without touching member vaiables directly.
+- `Food`: As mentioned in summary, this is a representation of food, which manages its location and performs random location update by using a thread.
+- `Controller`: Now you can terminate game by `ESC` key.
+
+## vs. Rubrics
+
+### README
+
+- Has README which describes project and work.
+### Compiling and Testing
+- It compiles.
+
+### Loops, Functions, I/O
+
+- It writes result to a file.
+- The project accepts arrow keys and ESC key.
+
+### Object Oriented Programming
+
+- The project uses object oriented programming techniques.
+- For `Snake` class, it encapsulates private members and provides clearer methods than having accessed members directly.
+
+### Memory Management
+
+- The project uses smart pointer `shared_ptr` to share `Snake` object among `Game` and `Food`.
+
+### Concurrency
+
+- The project uses `thread` inside `Food` to run random update of its location.
+- For safe access to `Food` members from main game thread and thead inside `Food`, the project uses `std::mutex` and `std::lock_guard`.
+
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
