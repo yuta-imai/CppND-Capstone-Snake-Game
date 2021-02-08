@@ -1,6 +1,7 @@
 #ifndef FOOD_H
 #define FOOD_H
 
+#include <mutex>
 #include <random>
 #include <thread>
 #include <vector>
